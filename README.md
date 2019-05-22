@@ -2,14 +2,18 @@
 marp: true
 ---
 
-# Slide 1
+# REST API on steroids for Angular developer (and not only)
 
-Slide 1 content
+TODO: image with big Nest and Angular logo (plus React, VUE, JS)
 
 ---
 
-# Slide 2
+![bg contain](./p-fortran.png)
 
-![bg](./p-fortran.jpg)
+---
 
-Slide 2 content
+# Frontend dev choses way to create API
+
+- should I go serverless (and got vendor locked)?
+- do I create API app using one of those ugly alien languages/frameworks?
+- JS/Node to the rescue!
