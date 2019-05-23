@@ -87,4 +87,10 @@ TODO: image with big Nest and Angular logo (plus React, VUE, JS)
 
 ---
 
-# Swagger, Sentry and more
+# More
+
+- websockets
+- microservices
+- Swagger
+- Sentry
+- ...
