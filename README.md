@@ -43,6 +43,7 @@ I want to have JS everywhere!
 [Adonis](https://adonisjs.com/)
 
 [Total](https://www.totaljs.com/)
+
 ...
 
 ---
@@ -124,4 +125,5 @@ Microservices
 Swagger
 
 Sentry
+
 ...
