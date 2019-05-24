@@ -17,7 +17,9 @@ TODO: image with big Nest and Angular logo (plus React, VUE, JS)
 # When frontender picks tech stack for API
 
 Do I go serverless?
+
 Do I use one of those ugly alien (non-JS) languages/frameworks?
+
 I want to have JS everywhere!
 
 ---
@@ -25,13 +27,21 @@ I want to have JS everywhere!
 # Choose among over 9000 Node.js frameworks
 
 [Express](https://expressjs.com/)
+
 [koa](https://koajs.com/)
+
 [hapi](https://hapijs.com/)
+
 [LoopBack](https://loopback.io/)
+
 [restify](http://restify.com/)
+
 [Sails](https://sailsjs.com/)
+
 [Feathers](https://feathersjs.com/)
+
 [Adonis](https://adonisjs.com/)
+
 [Total](https://www.totaljs.com/)
 ...
 
@@ -40,12 +50,19 @@ I want to have JS everywhere!
 # Why I choose nest (and you should consider too)
 
 Opinionated modular design/architecture (maintainability and scalability battle tested)
+
 Typescript
+
 Familiar to Angular developer
+
 [Nx](https://nx.dev/)
+
 Excellent documentation
+
 Great community and support
+
 Express under the hood (out of the box)
+
 Compatibility with other libraries (e.g. Fasify or even custom adapters)
 
 ---
@@ -57,12 +74,19 @@ Compatibility with other libraries (e.g. Fasify or even custom adapters)
 # Building blocks
 
 Modules
+
 Controllers
+
 Providers (Services)
+
 Pipes
+
 Guards
+
 Interceptors
+
 Exception filters
+
 Middlewares
 
 ---
@@ -94,7 +118,10 @@ Middlewares
 # More
 
 Websockets
+
 Microservices
+
 Swagger
+
 Sentry
 ...
