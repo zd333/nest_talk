@@ -16,50 +16,54 @@ TODO: image with big Nest and Angular logo (plus React, VUE, JS)
 
 # When frontender picks tech stack for API
 
-- go serverless
-- use one of those ugly alien (non JS) languages/frameworks
-- have JS everywhere!
+Do I go serverless?
+Do I use one of those ugly alien (non-JS) languages/frameworks?
+I want to have JS everywhere!
 
 ---
 
 # Choose among over 9000 Node.js frameworks
 
-- [Express](https://expressjs.com/)
-- [koa](https://koajs.com/)
-- [hapi](https://hapijs.com/)
-- [LoopBack](https://loopback.io/)
-- [restify](http://restify.com/)
-- [Sails](https://sailsjs.com/)
-- [Feathers](https://feathersjs.com/)
-- [Adonis](https://adonisjs.com/)
-- [Total](https://www.totaljs.com/)
-- ...
+[Express](https://expressjs.com/)
+[koa](https://koajs.com/)
+[hapi](https://hapijs.com/)
+[LoopBack](https://loopback.io/)
+[restify](http://restify.com/)
+[Sails](https://sailsjs.com/)
+[Feathers](https://feathersjs.com/)
+[Adonis](https://adonisjs.com/)
+[Total](https://www.totaljs.com/)
+...
 
 ---
 
-# Why I choose nest (and you should too)
+# Why I choose nest (and you should consider too)
 
-- opinionated modular design/architecture (maintainability and scalability battle tested)
-- Typescript
-- familiar to Angular developer
-- [Nx](https://nx.dev/)
-- excellent documentation
-- great community and support
-- Express under the hood (out of the box)
-- compatibility with other libraries (e.g. Fasify or even custom adapters)
+Opinionated modular design/architecture (maintainability and scalability battle tested)
+Typescript
+Familiar to Angular developer
+[Nx](https://nx.dev/)
+Excellent documentation
+Great community and support
+Express under the hood (out of the box)
+Compatibility with other libraries (e.g. Fasify or even custom adapters)
+
+---
+
+# More about awesome Nx
 
 ---
 
 # Building blocks
 
-- modules
-- controllers
-- providers (services)
-- pipes
-- guards
-- interceptors
-- exception filters
-- middlewares
+Modules
+Controllers
+Providers (Services)
+Pipes
+Guards
+Interceptors
+Exception filters
+Middlewares
 
 ---
 
@@ -89,8 +93,8 @@ TODO: image with big Nest and Angular logo (plus React, VUE, JS)
 
 # More
 
-- websockets
-- microservices
-- Swagger
-- Sentry
-- ...
+Websockets
+Microservices
+Swagger
+Sentry
+...
