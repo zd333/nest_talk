@@ -2,8 +2,6 @@
 marp: true
 ---
 
-<!--class: lead invert -->
-
 # REST API on steroids for Angular developer (and not only)
 
 TODO: image with big Nest and Angular logo (plus React, VUE, JS)
@@ -92,15 +90,134 @@ Middlewares
 
 ---
 
-# Controllers
+# Controllers - post method example
+
+```typescript
+@Controller("tenants")
+export class TenantsController {
+  // ...
+
+  @Post()
+  public async create(@Body() dto: CreateTenantDto): Promise<number> {
+    const dbDocument = await this.tenantsDbConnector.create(dto);
+
+    return dbDocument.id;
+  }
+
+  // ...
+}
+```
 
 ---
 
-# Providers
+# Controllers - get method example
+
+```typescript
+@Controller("employees")
+export class EmployeesController {
+  // ...
+
+  @Get(":id")
+  public async getById(@Param() { id }): Promise<EmployeeDetailsDto> {
+    const dbDocument = await this.employeesDbConnector.getById(id);
+
+    if (!dbDocument) {
+      throw new NotFoundException();
+    }
+
+    return convertDocumentToDto({
+      dbDocument,
+      dtoConstructor: EmployeeDetailsDto
+    });
+  }
+
+  // ...
+}
+```
 
 ---
 
-# DB and ORM
+# Controllers - custom routes, global prefix
+
+TODO: add
+
+---
+
+# DB
+
+[TypeORM](https://github.com/typeorm/typeorm)
+
+[Mongoose](https://github.com/Automattic/mongoose)
+
+---
+
+# Mongoose - configuration
+
+```typescript
+const mongoConnStr = process.env.MONGO_CONNECTION_STRING;
+
+@Module({
+  imports: [
+    MongooseModule.forRoot(mongoConnStr),
+    AuthenticationModule,
+    EmployeesModule,
+    TenantsModule
+  ]
+})
+export class AppModule {}
+```
+
+---
+
+# Mongoose - schema definition
+
+```typescript
+// ...
+
+const schemaDefinition: SchemaDefinition = {
+  name: { type: String, required: true },
+  roles: [{ type: String, enum: allAppAccessRoles, required: false }]
+  isActive: { type: Boolean, required: true },
+  login: { type: String, required: true },
+  passwordHash: String,
+};
+
+const schema = new Schema(schemaDefinition);
+schema.pre("save", passwordHashingHook);
+
+export const EmployeeSchema = schema;
+```
+
+---
+
+# Mongoose - usage
+
+```typescript
+@Module({
+  imports: [MongooseModule.forFeature(schemasMap)]
+})
+export class EmployeesModule {}
+```
+
+```typescript
+let employeeModel: Model<Employee>;
+// ...
+const model = new employeeModel({
+  name: "John Snow",
+  roles: ["queenSlayer"],
+  isActive: false,
+  login: "sweetie",
+  password: "123456"
+});
+
+await model.save();
+// ...
+const dbDocument = await employeeModel.findById("some_id").exec();
+```
+
+---
+
+# Providers (Services), DI
 
 ---
 
@@ -108,7 +225,7 @@ Middlewares
 
 ---
 
-# Auth and guards
+# Authentication and guards
 
 ---
 
@@ -120,6 +237,8 @@ Middlewares
 
 Websockets
 
+GraphQL
+
 Microservices
 
 Swagger
@@ -127,3 +246,7 @@ Swagger
 Sentry
 
 ...
+
+---
+
+TODO: link + QR to presentation
