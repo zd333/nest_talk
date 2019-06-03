@@ -93,8 +93,9 @@ Middlewares
 # Controllers
 
 ```typescript
-@Controller("tenants")
+@Controller('tenants')
 export class TenantsController {
+
   @Post()
   public async create(@Body() dto: CreateTenantDto): Promise<number> {
     const dbDocument = await this.tenantsDbConnector.create(dto);
@@ -111,9 +112,10 @@ export class TenantsController {
 # Controllers - route parameters
 
 ```typescript
-@Controller("employees")
+@Controller('employees')
 export class EmployeesController {
-  @Get(":id")
+
+  @Get(':id')
   public async getById(@Param() { id }): Promise<EmployeeDetailsDto> {
     const dbDocument = await this.employeesDbConnector.getById(id);
 
@@ -133,17 +135,19 @@ export class EmployeesController {
 
 ---
 
-# Controllers - custom routes, global prefix
+# Controllers - global prefix, custom routes
 
 ```typescript
 // main.ts
-app.setGlobalPrefix("api/v1");
+
+app.setGlobalPrefix('api/v1');
 
 // ...
 
-@Controller("employees")
+@Controller('employees')
 export class EmployeesController {
-  @Post("register")
+
+  @Post('register')
   public async register(
     @Body() dto: RegisterEmployeeDto
   ): Promise<RegisteredEmployeeDto> {
@@ -185,8 +189,6 @@ export class AppModule {}
 # Mongoose - schema definition
 
 ```typescript
-// ...
-
 const schemaDefinition: SchemaDefinition = {
   name: { type: String, required: true },
   roles: [{ type: String, enum: allAppAccessRoles, required: false }]
@@ -196,7 +198,7 @@ const schemaDefinition: SchemaDefinition = {
 };
 
 const schema = new Schema(schemaDefinition);
-schema.pre("save", passwordHashingHook);
+schema.pre('save', passwordHashingHook);
 
 export const EmployeeSchema = schema;
 ```
@@ -207,26 +209,27 @@ export const EmployeeSchema = schema;
 
 ```typescript
 @Module({
-  imports: [MongooseModule.forFeature(schemasMap)]
+  imports: [
+    MongooseModule.forFeature([
+      { collection: 'Employees', schema: EmployeeSchema }
+    ])
+  ]
 })
 export class EmployeesModule {}
-```
-
-```typescript
+// ...
 let employeeModel: Model<Employee>;
 // ...
 const model = new employeeModel({
-  name: "John Snow",
-  roles: ["queenSlayer"],
+  name: 'John Snow',
+  roles: ['queenSlayer'],
   isActive: false,
-  login: "sweetie",
-  password: "123456"
+  login: 'sweety',
+  password: '123456'
 });
 
 await model.save();
 // ...
-
-const dbDocument = await employeeModel.findById("100500").exec();
+const dbDocument = await employeeModel.findById('100500').exec();
 ```
 
 ---
@@ -236,9 +239,10 @@ const dbDocument = await employeeModel.findById("100500").exec();
 ```typescript
 @Injectable()
 export class TenantsDbConnectorService {
+  
   constructor(
     private readonly employeesDbConnectorService: EmployeesDbConnectorService,
-    @InjectModel("Tenants") private readonly tenantModel: Model<Tenant>
+    @InjectModel('Tenants') private readonly tenantModel: Model<Tenant>
   ) {}
 
   public async create(dto: CreateTenantDto): Promise<TenantDocument> {
@@ -285,6 +289,10 @@ Sentry
 
 ---
 
-TODO: link + QR to presentation
+# Thank You so much
 
-TODO: disable prettier and format manually (quotes, empty lines, ...)
+Presentation [https://github.com/zd333/nest_talk](https://github.com/zd333/nest_talk)
+![QR code with link to presentation](./presentation.png)
+
+Additional useful info
+TODO:
