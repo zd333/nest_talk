@@ -90,33 +90,29 @@ Middlewares
 
 ---
 
-# Controllers - post method example
+# Controllers
 
 ```typescript
 @Controller("tenants")
 export class TenantsController {
-  // ...
-
   @Post()
   public async create(@Body() dto: CreateTenantDto): Promise<number> {
     const dbDocument = await this.tenantsDbConnector.create(dto);
 
     return dbDocument.id;
   }
-
-  // ...
 }
 ```
 
+[https://example.com/tenants](https://example.com/tenants)
+
 ---
 
-# Controllers - get method example
+# Controllers - route parameters
 
 ```typescript
 @Controller("employees")
 export class EmployeesController {
-  // ...
-
   @Get(":id")
   public async getById(@Param() { id }): Promise<EmployeeDetailsDto> {
     const dbDocument = await this.employeesDbConnector.getById(id);
@@ -130,16 +126,33 @@ export class EmployeesController {
       dtoConstructor: EmployeeDetailsDto
     });
   }
-
-  // ...
 }
 ```
+
+[https://example.com/employees/100500](https://example.com/employees/100500)
 
 ---
 
 # Controllers - custom routes, global prefix
 
-TODO: add
+```typescript
+// main.ts
+app.setGlobalPrefix("api/v1");
+
+// ...
+
+@Controller("employees")
+export class EmployeesController {
+  @Post("register")
+  public async register(
+    @Body() dto: RegisterEmployeeDto
+  ): Promise<RegisteredEmployeeDto> {
+    // ...
+  }
+}
+```
+
+[https://example.com/api/v1/employees/register](https://example.com/api/v1/employees/register)
 
 ---
 
@@ -212,12 +225,35 @@ const model = new employeeModel({
 
 await model.save();
 // ...
-const dbDocument = await employeeModel.findById("some_id").exec();
+
+const dbDocument = await employeeModel.findById("100500").exec();
 ```
 
 ---
 
 # Providers (Services), DI
+
+```typescript
+@Injectable()
+export class TenantsDbConnectorService {
+  constructor(
+    private readonly employeesDbConnectorService: EmployeesDbConnectorService,
+    @InjectModel("Tenants") private readonly tenantModel: Model<Tenant>
+  ) {}
+
+  public async create(dto: CreateTenantDto): Promise<TenantDocument> {
+    const doc = new this.tenantModel(dto);
+
+    await doc.save();
+
+    return doc;
+  }
+
+  public async getById(id: string): Promise<TenantDocument | null> {
+    return await this.tenantModel.findById(id).exec();
+  }
+}
+```
 
 ---
 
@@ -250,3 +286,5 @@ Sentry
 ---
 
 TODO: link + QR to presentation
+
+TODO: disable prettier and format manually (quotes, empty lines, ...)
