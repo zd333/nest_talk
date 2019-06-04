@@ -2,7 +2,6 @@
 marp: true
 ---
 
-<!-- $backgroundColor: aqua -->
 
 # REST API on steroids for Angular developer <br/> (and not only)
 
