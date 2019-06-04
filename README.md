@@ -68,6 +68,18 @@ Compatibility with other libraries (e.g. Fasify or even custom adapters)
 
 # More about awesome Nx
 
+[https://nx.dev/](https://nx.dev/)
+
+NestJS
+
+React
+
+Jest, Cypress
+
+Angular NGRX + missing things (data persistance)
+
+Angular Console
+
 ---
 
 # Building blocks
@@ -109,7 +121,7 @@ export class TenantsController {
 
 ---
 
-# Controllers - route parameters
+# Route parameters
 
 ```typescript
 @Controller('employees')
@@ -135,7 +147,7 @@ export class EmployeesController {
 
 ---
 
-# Controllers - global prefix, custom routes
+# Global prefix, custom routes
 
 ```typescript
 // main.ts
@@ -239,7 +251,7 @@ const dbDocument = await employeeModel.findById('100500').exec();
 ```typescript
 @Injectable()
 export class TenantsDbConnectorService {
-  
+
   constructor(
     private readonly employeesDbConnectorService: EmployeesDbConnectorService,
     @InjectModel('Tenants') private readonly tenantModel: Model<Tenant>
@@ -261,15 +273,171 @@ export class TenantsDbConnectorService {
 
 ---
 
-# Validation
+# Declarative validation
+
+[https://github.com/typestack/class-validator](https://github.com/typestack/class-validator)
+
+```typescript
+export class RegisterEmployeeDto {
+  @MinLength(3)
+  public readonly name: string;
+
+  @IsOptional()
+  @ArrayUnique()
+  @IsIn(allAppAccessRoles, { each: true })
+  @NotEquals('_ADMIN', { each: true })
+  public readonly roles?: Array<AppAccessRoles>;
+
+  @Validate(IsNotExpiredJwtTokenValidator)
+  public readonly registrationToken: string;
+}
+```
+
+---
+
+# Custom validators
+
+```typescript
+@ValidatorConstraint()
+@Injectable()
+export class IsNotExpiredJwtTokenValidator implements ValidatorConstraintInterface {
+
+  constructor(private readonly jwt: JwtService) {}
+
+  public validate(value: string): boolean {
+    return this.jwt.verify(value);
+  }
+
+  public defaultMessage(): string {
+    return '$value must be valid and not expired JWT token';
+  }
+}
+```
+
+---
+
+# Validation usage
+
+```typescript
+@Post('register')
+@UsePipes(new ValidationPipe())
+public async register(
+  @Body() dto: RegisterEmployeeDto,
+): Promise<void> {
+  // ...
+}
+// ...
+
+app.useGlobalPipes(
+  new ValidationPipe({
+    forbidUnknownValues: true,
+  }),
+);
+```
 
 ---
 
 # Authentication and guards
 
+```typescript
+@Module({
+  imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+  ],
+})
+export class AuthenticationModule {}
+// ...
+
+@UseGuards(AuthGuard())
+@Put(':id')
+public async update(
+  @Param() { id }: string,
+  @Body() dto: UpdateEmployeeDto,
+): Promise<void> {
+  // ...
+}
+```
+
+---
+
+# Roles-based access control
+
+[https://github.com/nestjs-community/nest-access-control](https://github.com/nestjs-community/nest-access-control)
+
+```typescript
+export const appRoles = new RolesBuilder();
+
+appRoles.grant('_BASIC')
+  .readAny('tenant')
+  .createOwn('employee');
+
+appRoles.grant('_ADMIN')
+  .extend('_BASIC')
+  .updateAny('employee')
+  .deleteAny('employee');
+// ...
+
+@Module({
+  imports: [
+    AccessControlModule.forRoles(appRoles),
+  ],
+})
+export class AppModule {}
+```
+
+---
+
+# Authorization roles usage
+
+```typescript
+@UseGuards(
+  AuthGuard(),
+  ACGuard,
+)
+@UseRoles({
+  resource: 'employee',
+  action: 'update',
+  possession: 'any',
+})
+@Put(':id')
+public async update(
+  @Param() { id }: string,
+  @Body() dto: UpdateEmployeeDto,
+): Promise<void> {
+  // ...
+}
+```
+
 ---
 
 # Middlewares
+
+```typescript
+@Injectable()
+export class AddClinicContextMiddleware implements NestMiddleware {
+  constructor(private readonly clinicsDbConnector: ClinicsDbConnectorService) {}
+
+  public resolve(): MiddlewareFunction {
+    return async (req: AppRequest, res, next) => {
+      const hostName = req.header('host');
+      const targetClinicId = await this.clinicsDbConnector.getClinicIdByHostName(hostName);
+
+      req.body.targetClinicId = targetClinicId;
+      next();
+    };
+  }
+}
+// ...
+
+export class AppModule implements NestModule {
+  public configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(AddClinicContextMiddleware).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL,
+    });
+  }
+}
+```
 
 ---
 
