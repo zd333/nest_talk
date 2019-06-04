@@ -459,7 +459,9 @@ Swagger
 # Thank You so much
 
 Presentation [https://github.com/zd333/nest_talk](https://github.com/zd333/nest_talk)
+
 ![QR code with link to presentation](./qr-presentation.png)
 
-Additional useful info
+Credits
+
 TODO:
