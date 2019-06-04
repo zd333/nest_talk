@@ -2,9 +2,11 @@
 marp: true
 ---
 
-# REST API on steroids for Angular developer (and not only)
+<!-- $backgroundColor: aqua -->
 
-TODO: image with big Nest and Angular logo (plus React, VUE, JS)
+# REST API on steroids for Angular developer <br/> (and not only)
+
+![width:800px](./nest-logo.png)
 
 ---
 
@@ -433,7 +435,7 @@ export class AppModule implements NestModule {
   public configure(consumer: MiddlewareConsumer): void {
     consumer.apply(AddClinicContextMiddleware).forRoutes({
       path: '*',
-      method: RequestMethod.ALL,
+      method: RequestMethod.POST,
     });
   }
 }
@@ -451,8 +453,6 @@ Microservices
 
 Swagger
 
-Sentry
-
 ...
 
 ---
@@ -460,7 +460,7 @@ Sentry
 # Thank You so much
 
 Presentation [https://github.com/zd333/nest_talk](https://github.com/zd333/nest_talk)
-![QR code with link to presentation](./presentation.png)
+![QR code with link to presentation](./qr-presentation.png)
 
 Additional useful info
 TODO:
