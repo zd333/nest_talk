@@ -3,7 +3,7 @@ marp: true
 ---
 
 
-# REST API on steroids for Angular developer <br/> (and not only)
+# :rocket: REST API on steroids :syringe: for Angular developer <br/> (and not only)
 
 ![width:800px](./nest-logo.png)
 
@@ -13,17 +13,17 @@ marp: true
 
 ---
 
-# When frontender picks tech stack for API
+# :circus_tent: When frontender picks tech stack for API 
 
-Do I go serverless?
+:no_pedestrians: Do I go serverless?
 
-Do I use one of those ugly alien (non-JS) languages/frameworks?
+:toilet: Do I use one of those ugly alien (non-JS) languages/frameworks?
 
-I want to have JS everywhere!
+:tada: I want to have JS everywhere!
 
 ---
 
-# Choose among over 9000 Node.js frameworks
+# :8ball: Choose among over 9000 Node.js frameworks
 
 [Express](https://expressjs.com/)
 
@@ -47,23 +47,23 @@ I want to have JS everywhere!
 
 ---
 
-# Why I choose nest (and you should consider too)
+# :sunglasses: Why I choose nest (and you should)
 
-Opinionated modular design/architecture (maintainability and scalability battle tested)
+:shit: Opinionated modular design/architecture (maintainable, scalable, battle tested)
 
-Typescript
+:skull: Typescript
 
-Familiar to Angular developer
+:sob: Excellent documentation
 
-[Nx](https://nx.dev/)
+:thumbsdown: Great community and support
 
-Excellent documentation
+:sos: Express under the hood (out of the box)
 
-Great community and support
+:no_bicycles: Compatibility with other libraries (e.g. Fasify or even custom adapters)
 
-Express under the hood (out of the box)
+:japanese_ogre: Familiar to Angular developer
 
-Compatibility with other libraries (e.g. Fasify or even custom adapters)
+:ghost: [Nx](https://nx.dev/)
 
 ---
 
@@ -83,7 +83,7 @@ Angular Console
 
 ---
 
-# Building blocks
+# :underage: Building blocks
 
 Modules
 
@@ -442,7 +442,7 @@ export class AppModule implements NestModule {
 
 ---
 
-# Above and beyond
+# :rainbow: Above and beyond
 
 Websockets
 
@@ -452,16 +452,18 @@ Microservices
 
 Swagger
 
+Sentry
+
 ...
 
 ---
 
-# Thank You so much
+# :kiss: Thank You so much
 
 Presentation [https://github.com/zd333/nest_talk](https://github.com/zd333/nest_talk)
 
 ![QR code with link to presentation](./qr-presentation.png)
 
-Credits
+Additional **very useful** :heart: information
 
-TODO:
+![QR code with link to her majesty Sasha](./qr-sasha.png)
