@@ -111,9 +111,9 @@ export class TenantsController {
 
   @Post()
   public async create(@Body() dto: CreateTenantDto): Promise<number> {
-    const dbDocument = await this.tenantsDbConnector.create(dto);
+    const model = await this.tenantsDbConnector.create(dto);
 
-    return dbDocument.id;
+    return model.id;
   }
 }
 ```
@@ -130,14 +130,14 @@ export class EmployeesController {
 
   @Get(':id')
   public async getById(@Param() { id }): Promise<EmployeeDetailsDto> {
-    const dbDocument = await this.employeesDbConnector.getById(id);
+    const model = await this.employeesDbConnector.getById(id);
 
-    if (!dbDocument) {
+    if (!model) {
       throw new NotFoundException();
     }
 
-    return convertDocumentToDto({
-      dbDocument,
+    return convertModelToDto({
+      model,
       dtoConstructor: EmployeeDetailsDto
     });
   }
@@ -241,7 +241,7 @@ const model = new EmployeeModel({
 await model.save();
 // ...
 
-const dbDocument = await EmployeeModel.findById('100500').exec();
+const anotherModel = await EmployeeModel.findById('100500').exec();
 ```
 
 ---
@@ -257,16 +257,18 @@ export class TenantsDbConnectorService {
     @InjectModel('Tenants') private readonly TenantModel: Model<Tenant>
   ) {}
 
-  public async create(dto: CreateTenantDto): Promise<TenantDocument> {
+  public async create(dto: CreateTenantDto): Promise<Tenant> {
     const doc = new this.TenantModel(dto);
 
     await doc.save();
 
-    return doc;
+    return doc.toObject();
   }
 
-  public async getById(id: string): Promise<TenantDocument | null> {
-    return await this.TenantModel.findById(id).exec();
+  public async getById(id: string): Promise<Tenant | null> {
+    const doc = await this.TenantModel.findById(id).exec();
+
+    return doc ? doc.toObject() : null;
   }
 }
 ```
