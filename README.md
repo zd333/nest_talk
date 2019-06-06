@@ -47,7 +47,7 @@ marp: true
 
 ---
 
-# :sunglasses: Why I choose nest (and you should)
+# :sunglasses: Why I choose NestJS (and you should)
 
 :shit: Opinionated modular design/architecture (maintainable, scalable, battle tested)
 
@@ -67,7 +67,7 @@ marp: true
 
 ---
 
-# More about awesome Nx
+# Awesome Nx
 
 [https://nx.dev/](https://nx.dev/)
 
@@ -75,11 +75,11 @@ NestJS
 
 React
 
-Jest, Cypress
-
 Angular NGRX + missing things (data persistance)
 
 Angular Console
+
+Jest, Cypress
 
 ---
 
@@ -152,7 +152,6 @@ export class EmployeesController {
 
 ```typescript
 // main.ts
-
 app.setGlobalPrefix('api/v1');
 
 // ...
@@ -230,9 +229,8 @@ export const EmployeeSchema = schema;
 })
 export class EmployeesModule {}
 // ...
-let employeeModel: Model<Employee>;
-// ...
-const model = new employeeModel({
+
+const model = new EmployeeModel({
   name: 'John Snow',
   roles: ['queenSlayer'],
   isActive: false,
@@ -242,7 +240,8 @@ const model = new employeeModel({
 
 await model.save();
 // ...
-const dbDocument = await employeeModel.findById('100500').exec();
+
+const dbDocument = await EmployeeModel.findById('100500').exec();
 ```
 
 ---
@@ -255,11 +254,11 @@ export class TenantsDbConnectorService {
 
   constructor(
     private readonly employeesDbConnectorService: EmployeesDbConnectorService,
-    @InjectModel('Tenants') private readonly tenantModel: Model<Tenant>
+    @InjectModel('Tenants') private readonly TenantModel: Model<Tenant>
   ) {}
 
   public async create(dto: CreateTenantDto): Promise<TenantDocument> {
-    const doc = new this.tenantModel(dto);
+    const doc = new this.TenantModel(dto);
 
     await doc.save();
 
@@ -267,7 +266,7 @@ export class TenantsDbConnectorService {
   }
 
   public async getById(id: string): Promise<TenantDocument | null> {
-    return await this.tenantModel.findById(id).exec();
+    return await this.TenantModel.findById(id).exec();
   }
 }
 ```
@@ -299,8 +298,8 @@ export class RegisterEmployeeDto {
 # Custom validators
 
 ```typescript
-@ValidatorConstraint()
 @Injectable()
+@ValidatorConstraint()
 export class IsNotExpiredJwtTokenValidator implements ValidatorConstraintInterface {
 
   constructor(private readonly jwt: JwtService) {}
@@ -338,7 +337,7 @@ app.useGlobalPipes(
 
 ---
 
-# Authentication and guards
+# Guards and authentication
 
 ```typescript
 @Module({
@@ -420,10 +419,10 @@ export class AddClinicContextMiddleware implements NestMiddleware {
 
   public resolve(): MiddlewareFunction {
     return async (req: AppRequest, res, next) => {
-      const hostName = req.header('host');
-      const targetClinicId = await this.clinicsDbConnector.getClinicIdByHostName(hostName);
+      const requestHost = req.header('host');
+      const targetClinic = await this.clinicsDbConnector.getClinicByHostName(requestHost);
 
-      req.body.targetClinicId = targetClinicId;
+      req.body.clinicId = targetClinic.id;
       next();
     };
   }
@@ -442,7 +441,7 @@ export class AppModule implements NestModule {
 
 ---
 
-# :rainbow: Above and beyond
+# :rainbow: :carousel_horse: Above and beyond
 
 Websockets
 
