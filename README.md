@@ -172,6 +172,35 @@ export class EmployeesController {
 
 ---
 
+# Providers (Services), DI
+
+```typescript
+@Injectable()
+export class TenantsDbConnectorService {
+
+  constructor(
+    private readonly employeesDbConnectorService: EmployeesDbConnectorService,
+    @InjectModel('Tenants') private readonly TenantModel: Model<Tenant>
+  ) {}
+
+  public async create(dto: CreateTenantDto): Promise<Tenant> {
+    const doc = new this.TenantModel(dto);
+
+    await doc.save();
+
+    return doc.toObject();
+  }
+
+  public async getById(id: string): Promise<Tenant | null> {
+    const doc = await this.TenantModel.findById(id).exec();
+
+    return doc ? doc.toObject() : null;
+  }
+}
+```
+
+---
+
 # DB
 
 [TypeORM](https://github.com/typeorm/typeorm)
@@ -242,35 +271,6 @@ await model.save();
 // ...
 
 const anotherModel = await EmployeeModel.findById('100500').exec();
-```
-
----
-
-# Providers (Services), DI
-
-```typescript
-@Injectable()
-export class TenantsDbConnectorService {
-
-  constructor(
-    private readonly employeesDbConnectorService: EmployeesDbConnectorService,
-    @InjectModel('Tenants') private readonly TenantModel: Model<Tenant>
-  ) {}
-
-  public async create(dto: CreateTenantDto): Promise<Tenant> {
-    const doc = new this.TenantModel(dto);
-
-    await doc.save();
-
-    return doc.toObject();
-  }
-
-  public async getById(id: string): Promise<Tenant | null> {
-    const doc = await this.TenantModel.findById(id).exec();
-
-    return doc ? doc.toObject() : null;
-  }
-}
 ```
 
 ---
